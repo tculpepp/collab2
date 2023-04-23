@@ -11,8 +11,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 import environ
 from urllib.parse import urlparse
+
+import io
+from google.cloud import secretmanager
 
 # Initialise environment variables
 env = environ.Env()
@@ -20,6 +24,25 @@ environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env(DEBUG=(bool, False))
+env_file = os.path.join(BASE_DIR, '.env')
+
+if os.path.isfile(env_file):
+    # read a local .env file
+    env.read_env(env_file)
+elif os.environ.get('GOOGLE_CLOUD_PROJECT', None):
+    # pull .env file from Secret Manager
+    project_id = os.environ.get('GOOGLE_CLOUD_PROJECT')
+
+    client = secretmanager.SecretManagerServiceClient()
+    settings_name = os.environ.get('SETTINGS_NAME', 'django_settings')
+    name = f'projects/{project_id}/secrets/{settings_name}/versions/latest'
+    payload = client.access_secret_version(name=name).payload.data.decode('UTF-8')
+
+    env.read_env(io.StringIO(payload))
+else:
+    raise Exception('No local .env or GOOGLE_CLOUD_PROJECT detected. No secrets found.')
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,7 +52,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = False
+DEBUG = env('DEBUG')
 
 # ALLOWED_HOSTS = ['*']
 
@@ -93,13 +117,15 @@ WSGI_APPLICATION = 'collab_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
+
+DATABASES = {'default': env.db()}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
