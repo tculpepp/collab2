@@ -1,3 +1,6 @@
 .env
 email_test.py
 venv/
+.DS_Store
+cloud-sql-proxy
+gcpCredentials.json

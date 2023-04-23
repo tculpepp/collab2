@@ -17,16 +17,17 @@ from urllib.parse import urlparse
 
 import io
 from google.cloud import secretmanager
+from google.oauth2 import service_account
 
 # Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
+# env = environ.Env()
+# environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(DEBUG=(bool, False))
-env_file = os.path.join(BASE_DIR, '.env')
+env_file = os.path.join(BASE_DIR / 'collab_project', '.env')
 
 if os.path.isfile(env_file):
     # read a local .env file
@@ -183,3 +184,11 @@ EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = 'collaborator.notifications@gmail.com'
 
 PASSWORD_RESET_TIMEOUT = 14400
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR / 'collab_project', 'gcpCredentials.json')
+)
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = env('GS_BUCKET_NAME')
