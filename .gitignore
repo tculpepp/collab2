@@ -4,3 +4,4 @@ venv/
 .DS_Store
 cloud-sql-proxy
 gcpCredentials.json
+db.sqlite3
