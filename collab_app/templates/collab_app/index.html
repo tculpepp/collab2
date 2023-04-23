@@ -1,0 +1,56 @@
+<!-- collaborator/collab_app/templates/collab_app/index.html -->
+<!-- this is the template for the app index page. Users should land here after login -->
+
+{% extends "base.html" %}
+{% block content %}
+{% if user.get_first_name is not empty %}
+<p> Hello, {{ user.get_first_name }}</p>
+{% else %}
+<p> Hello, {{ user.get_username }}</p>
+{% endif %}
+<div class="row">
+    <!-- this column loads all the current user's lists -->
+    <div class="column">
+        {% if currentUserData %}
+        <h3>My lists</h3>
+        {% endif %}
+        <ul>
+            {% for todolist in currentUserData %}
+            <li>
+                <div
+                    role="button"
+                    onclick="location.href='{% url "list" todolist.id %}'">
+                    {{ todolist.title }}
+                </div>
+            </li>
+            {% empty %}
+            <h4>You have no lists!</h4>
+            {% endfor %}
+        </ul>
+        <p>
+            <input
+                value="Add a new list"
+                type="button"
+                onclick="location.href='{% url "list-add" %}'"/>
+        </p>
+    </div>
+    <!-- this column loads all other user's lists -->
+    <div class="column">
+        <h3>Other User's Lists</h3>
+        <ul>
+            {% for todolist in otherUserData %}
+            <li>
+                <div
+                    role="button"
+                    onclick="location.href='{% url "list" todolist.id %}'">
+                    {{ todolist.title }}
+                    ({{ todolist.user }})
+                </div>
+            </li>
+            {% empty %}
+            <h4>No Other Lists Found</h4>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

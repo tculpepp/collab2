@@ -1,0 +1,9 @@
+/* create a two column 50/50 view */
+
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
+}

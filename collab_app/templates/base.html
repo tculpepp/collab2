@@ -1,0 +1,33 @@
+<!-- collaborator/collab_app/templates/base.html -->
+<!-- This is the base template for collaborator-->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/collab.css" %}">
+    <!--import SimpleCss style sheet-->
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <!-- collaborator logo was borrowed from collaborator LMS. Do not use outside class project!! -->
+    <img src="{% static "images/collaborator.svg" %}" alt="Collaborator Logo">
+</head>
+
+<body>
+    <div>
+        {% block content %}
+        This content will be replaced by different html code for each page.
+        {% endblock %}
+    </div>
+    <div>
+        {% if user.is_authenticated %}
+        <p><a href="{% url 'logout' %}">Log Out</a></p>
+        {% endif %}
+    </div>
+    <footer>
+        <p>Collaborator logo and banner © 2023 LMS Collaborator.</p>
+    </footer>
+</body>
+
+</html>
