@@ -1,4 +1,4 @@
-# collaborator/todo_app/views.py
+# collaborator/collab_app/views.py
 # This file defines the views and functions for the app
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -18,7 +18,7 @@ from .models import ToDoItem, ToDoList
 # define the list view that is used in the index.html template
 class ListListView(LoginRequiredMixin, ListView):
     model = ToDoList
-    template_name = "todo_app/index.html"
+    template_name = "collab_app/index.html"
     login_url = '/accounts/login/'
     redirect_field_name = 'redirect_to'
 
@@ -32,7 +32,7 @@ class ListListView(LoginRequiredMixin, ListView):
 # This class defines how the list items look when loaded with todo_list.html
 class ItemListView(LoginRequiredMixin, ListView):
     model = ToDoItem
-    template_name = "todo_app/todo_list.html"
+    template_name = "collab_app/todo_list.html"
     login_url = '/accounts/login/'
     redirect_field_name = 'redirect_to'
 
