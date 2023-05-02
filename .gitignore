@@ -7,3 +7,5 @@ gcpCredentials.json
 db.sqlite3
 *.code-workspace
 venv
+*.md
+*.sqlite3
