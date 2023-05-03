@@ -2,6 +2,7 @@
 # This file defines the views and functions for the app
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import ToDoItemForm
 
 from django.views.generic import (
     ListView,
@@ -70,17 +71,25 @@ class ItemCreate(LoginRequiredMixin, CreateView):
     model = ToDoItem
     login_url = '/accounts/login/' # mark for possible removal. depreciated
     redirect_field_name = 'redirect_to'
-    fields = [
-        "todo_list",
-        "title",
-        "description",
-        "due_date",
-    ]
+    form_class = ToDoItemForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user 
+        return kwargs
+    
+    # def get_initial(self):
+    #     initial_data = super(ItemCreate, self).get_initial()
+    #     print('initial data (create):') # delete me
+    #     print(initial_data) # delete me
+    #     return initial_data
 
     def get_context_data(self):
         context = super(ItemCreate, self).get_context_data()
         todo_list = ToDoList.objects.get(id=self.kwargs["list_id"])
         context["todo_list"] = todo_list
+        print("todo_list (Create):") # delete me
+        print(context['todo_list']) # delete me
         context["title"] = "Create a new item"
         return context
 
@@ -92,22 +101,30 @@ class ItemUpdate(LoginRequiredMixin, UpdateView):
     model = ToDoItem
     login_url = '/accounts/login/' # mark for possible removal. depreciated
     redirect_field_name = 'redirect_to'
-    fields = [
-        "todo_list",
-        "title",
-        "description",
-        "due_date",
-    ]
+    form_class = ToDoItemForm
+    # fields = [
+    #     "todo_list",
+    #     "title",
+    #     "description",
+    #     "due_date",
+    # ]
 
-    def get_initial(self):
-        initial_data = super(ItemUpdate, self).get_initial()
-        todo_list = ToDoList.objects.exclude(user__username=self.request.user)
-        initial_data["todo_list"] = todo_list
-        return initial_data
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user 
+        return kwargs
+
+    # def get_initial(self):
+    #     initial_data = super(ItemUpdate, self).get_initial()
+    #     print('initial data (update):') # delete me
+    #     print(initial_data) # delete me
+    #     return initial_data
     
     def get_context_data(self):
         context = super(ItemUpdate, self).get_context_data()
         context["todo_list"] = self.object.todo_list
+        print("todo_list (Update):") # delete me
+        print(context['todo_list']) # delete me
         context["title"] = "Edit item"
         return context
 
