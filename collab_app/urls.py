@@ -4,12 +4,26 @@ from collab_app import views
 
 #  this file creates the URL patterns that link URLs in the templates to functions in views.py
 urlpatterns = [
-    path("", views.ListListView.as_view(), name="index"),
-    path("list/<int:list_id>/", views.ItemListView.as_view(), name="list"),
-    # CRUD patterns for ToDoLists
-    path("list/add/", views.ListCreate.as_view(), name="list-add"),
     path(
-        "list/<int:pk>/delete/", views.ListDelete.as_view(), name="list-delete"
+        "", 
+        views.ListListView.as_view(), 
+        name="index"
+    ),
+    path(
+        "list/<int:list_id>/", 
+        views.ItemListView.as_view(), 
+        name="list"
+    ),
+    # CRUD patterns for ToDoLists
+    path(
+        "list/add/", 
+        views.ListCreate.as_view(), 
+        name="list-add"
+    ),
+    path(
+        "list/<int:pk>/delete/", 
+        views.ListDelete.as_view(), 
+        name="list-delete"
     ),
     # CRUD patterns for ToDoItems
     path(
