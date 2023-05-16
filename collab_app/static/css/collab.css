@@ -7,3 +7,11 @@
 .column {
     flex: 50%;
 }
+
+.button-completeFalse {
+    text-decoration: Underline;
+}
+
+.button-completeTrue{
+    text-decoration: line-through;
+}

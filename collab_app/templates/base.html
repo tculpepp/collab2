@@ -6,10 +6,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% load static %}
-    <link rel="stylesheet" href="{% static "css/collab.css" %}">
     <!--import SimpleCss style sheet-->
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/collab.css" %}">
+    <style>
+        .button-completeFalse {
+            text-decoration: Underline;
+        }
+
+        .button-completeTrue{
+            text-decoration: line-through;
+        }
+    </style>
     <!-- collaborator logo was borrowed from collaborator LMS. Do not use outside class project!! -->
     <img onclick="location.href='{% url "index" %}'" src="{% static "images/collaborator.svg" %}" alt="Collaborator Logo">
 </head>

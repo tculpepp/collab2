@@ -15,6 +15,7 @@
                 <div>
                     {% if todo_list.user == user %}
                     <div
+                        class="button-complete{{todo.complete}}"
                         role="button"
                         onclick="location.href=
                         '{% url "item-update" todo_list.id todo.id %}'">
@@ -23,6 +24,7 @@
                     </div>
                     {% else %}
                     <div
+                        class="button-complete{{todo.complete}}"
                         role="button"
                         onclick="">
                         {{ todo.title }}

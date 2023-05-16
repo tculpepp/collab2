@@ -39,7 +39,7 @@ class ItemListView(LoginRequiredMixin, ListView):
 
     # filter the DB for the current list's items only
     def get_queryset(self):
-        return ToDoItem.objects.filter(todo_list_id=self.kwargs["list_id"])
+        return ToDoItem.objects.filter(todo_list_id=self.kwargs["list_id"]).order_by('complete').values()
 
     #  turn the query into a context object (dictionary)
     def get_context_data(self):
@@ -50,7 +50,7 @@ class ItemListView(LoginRequiredMixin, ListView):
 # This class is for creating new list shells
 class ListCreate(LoginRequiredMixin, CreateView):
     model = ToDoList
-    login_url = '/accounts/login/' # mark for possible removal. depreciated
+    login_url = '/accounts/login/'
     redirect_field_name = 'redirect_to'
     fields = [
         "title"
@@ -96,7 +96,7 @@ class ItemCreate(LoginRequiredMixin, CreateView):
 # this class allows a user to update an item on a todo list
 class ItemUpdate(LoginRequiredMixin, UpdateView):
     model = ToDoItem
-    login_url = '/accounts/login/' # mark for possible removal. depreciated
+    login_url = '/accounts/login/'
     redirect_field_name = 'redirect_to'
     form_class = ToDoItemForm
 
@@ -117,7 +117,7 @@ class ItemUpdate(LoginRequiredMixin, UpdateView):
 # class to allow deletion of complete lists 
 class ListDelete(LoginRequiredMixin, DeleteView):
     model = ToDoList
-    login_url = '/accounts/login/' # mark for possible removal. depreciated
+    login_url = '/accounts/login/'
     redirect_field_name = 'redirect_to'
     # reverse_lazy() is used here because the URLs do not load when the file does
     success_url = reverse_lazy("index")

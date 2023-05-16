@@ -17,10 +17,11 @@ class ToDoItemForm(ModelForm):
             "title",
             "description",
             "due_date",
+            "complete"
         ]
         # this defines the format for the DateTimeInput
         # in this case:'10/25/06 14:30'
         # other formats: https://docs.djangoproject.com/en/4.2/ref/settings/#std-setting-DATETIME_INPUT_FORMATS
         widgets={
-            'due_date':DateTimeInput(format='%m/%d/%y %H:%M')
+            'due_date':DateTimeInput(format='%m/%d/%y')
         }
