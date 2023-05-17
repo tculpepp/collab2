@@ -1,5 +1,6 @@
 from django.forms import ModelForm
-from django.forms import DateTimeInput
+from django.forms import DateTimeInput, DateInput
+from django.forms.widgets import NumberInput
 from .models import *
 
 # This form overrides the generic form when called and limits the ToDoLists available in the lists selector
@@ -19,9 +20,7 @@ class ToDoItemForm(ModelForm):
             "due_date",
             "complete"
         ]
-        # this defines the format for the DateTimeInput
-        # in this case:'10/25/06 14:30'
-        # other formats: https://docs.djangoproject.com/en/4.2/ref/settings/#std-setting-DATETIME_INPUT_FORMATS
+        # this creates the date picker calendar on the form
         widgets={
-            'due_date':DateTimeInput(format='%m/%d/%y')
+            'due_date': DateInput(attrs={'type': 'date'})
         }
