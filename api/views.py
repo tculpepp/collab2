@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from . serializers import *
-from collab_app.models import ToDoList
+from collab_app.models import ToDoList, ToDoItem
 
 @api_view(['GET'])
 def getRoutes(request):
@@ -90,3 +90,15 @@ def getToDoLists(request):
         return Response(serializer.data)
     else:
         return Response("No action for this request method")
+    
+	# (user__username=self.request.user)
+
+@api_view(['GET'])
+def getToDoItem(request):
+	if (request.method == 'GET'):
+		# user = self.request.user
+		todoitems = ToDoItem.objects.all()
+		serializer = ToDoItemSerializer(todoitems, many=True)
+		return Response(serializer.data)
+	else:
+		return Response("No action for this request method")
