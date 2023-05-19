@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from . serializers import *
+from collab_app.models import ToDoList
 
 @api_view(['GET'])
 def getRoutes(request):
@@ -73,5 +74,19 @@ def crudNote(request, pk):
         note = get_object_or_404(Note, id=pk)
         note.delete()
         return Response('Note was deleted')
+    else:
+        return Response("No action for this request method")
+    
+@api_view(['GET', 'POST'])
+def getToDoLists(request):
+    if (request.method == 'GET'):
+        todolists = ToDoList.objects.all()
+        serializer = ToDoListSerializer(todolists, many=True)
+        return Response(serializer.data)
+    elif (request.method == 'POST'): # add conditional
+        data = request.data # grab data from user
+        todolist = ToDoList.objects.create(title=data['title'], id=data['id']) # create new note with body property
+        serializer = ToDoListSerializer(todolist, many=False) # serialize new note
+        return Response(serializer.data)
     else:
         return Response("No action for this request method")
