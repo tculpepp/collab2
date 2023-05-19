@@ -96,8 +96,8 @@ def getToDoLists(request):
 @api_view(['GET'])
 def getToDoItem(request):
 	if (request.method == 'GET'):
-		# user = self.request.user
-		todoitems = ToDoItem.objects.all()
+		user = request.user
+		todoitems = ToDoItem.objects.all().order_by('todo_list', 'due_date')
 		serializer = ToDoItemSerializer(todoitems, many=True)
 		return Response(serializer.data)
 	else:
