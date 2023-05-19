@@ -9,5 +9,5 @@ db.sqlite3
 venv
 *.md
 *.sqlite3
-collab_app/__pycache__/
-collab_project/__pycache__/
+*/__pycache__/
+*/*/__pycache__/
