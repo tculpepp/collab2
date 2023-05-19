@@ -32,6 +32,13 @@ env_file = os.path.join(BASE_DIR / 'collab_project', '.env')
 if os.path.isfile(env_file):
     # read a local .env file
     env.read_env(env_file)
+    # Use Local Db
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 elif os.environ.get('GOOGLE_CLOUD_PROJECT', None):
     # pull .env file from Secret Manager
     project_id = os.environ.get('GOOGLE_CLOUD_PROJECT')
@@ -42,6 +49,8 @@ elif os.environ.get('GOOGLE_CLOUD_PROJECT', None):
     payload = client.access_secret_version(name=name).payload.data.decode('UTF-8')
 
     env.read_env(io.StringIO(payload))
+    # Use Remote Db
+    DATABASES = {'default': env.db()}
 else:
     raise Exception('No local .env or GOOGLE_CLOUD_PROJECT detected. No secrets found.')
 
@@ -128,7 +137,7 @@ WSGI_APPLICATION = 'collab_project.wsgi.application'
 # }
 
 
-DATABASES = {'default': env.db()}
+# DATABASES = {'default': env.db()}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

@@ -20,7 +20,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
-    path("", include("collab_app.urls"))
+    path("", include("collab_app.urls")),
+    path('api/', include('api.urls'))
 ]
 admin.site.site_header  =  "Collaborator admin"  
 admin.site.site_title  =  "Collaborator admin site"
