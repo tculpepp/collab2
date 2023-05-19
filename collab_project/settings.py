@@ -82,6 +82,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'collab_app',
     'accounts',
+    'api',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
